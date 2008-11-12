@@ -86,40 +86,53 @@
   (loop for roman in romans
   collect (from-roman root scale roman)))
 
+(defun neapolitan (tonic)
+  (major-triad
+   (transpose tonic (interval 'min 2))))
+
 (play-chords
  '((c e g) (d f a) (g b5 e5) (c e g c5)))
 
 (play-chords
  (list
- (major-triad 'c)
- (minor-triad 'd)
- (major-triad 'g)
- (major-triad 'c)))
+  (major-triad 'c)
+  (minor-triad 'd)
+  (major-triad 'g)
+  (major-triad 'c)))
 
 (play-chords
  (list
- (major-triad 'c)
- (minor-triad 'c)
- (augmented-triad 'c)
- (diminished-triad 'c))
+  (major-triad 'c)
+  (minor-triad 'c)
+  (augmented-triad 'c)
+  (diminished-triad 'c))
  "triads.midi")
 
 (play-chords
  (list
- (dominant-seventh 'c)
- (major-seventh 'c)
- (minor-seventh 'c)
- (diminished-seventh 'c)
- (half-diminished-seventh 'c))
+  (dominant-seventh 'c)
+  (major-seventh 'c)
+  (minor-seventh 'c)
+  (diminished-seventh 'c)
+  (half-diminished-seventh 'c))
  "seventh-chords.midi")
 
 (play-chords
  (append
- (progression 
-  'c major-scale
-  '(1 2 5 1))
- (progression 
+  (progression 
+   'c major-scale
+   '(1 2 5 1))
+  (progression 
    'c major-scale
    `(1 2 (5 ,#'dominant-seventh) 1)))
  "progressions.midi")
 
+(play-chords
+ (append
+  (progression
+   'c minor-scale
+   `(1 6 2 5 1))
+  (progression 
+   'c minor-scale 
+   `(1 6 (1 ,#'neapolitan) 5 1)))
+ "minor-progressions.midi")

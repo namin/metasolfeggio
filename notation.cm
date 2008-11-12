@@ -1,12 +1,74 @@
 (in-package :cm)
 
 (defun play-chords (chords &optional (fn "output.midi"))
-    (events
-     (loop for chord in chords
-	   for i = 0 then (+ i 1)
-	   append (loop for note in chord
-			collect (new midi :time i :keynum note :duration 1)))
-     fn))
+  (events
+   (loop for chord in chords
+	 for i = 0 then (+ i 1)
+	 append (loop for note in chord
+		      collect (new midi :time i :keynum note :duration 1)))
+   fn))
+
+(defun chord (root &rest intervals)
+  (cons root
+	(loop for i in intervals
+ 	      collect (transpose root i))))
+
+(defun triad (root t3 t5)
+  (chord root (interval t3 3) (interval t5 5)))
+
+(defun major-triad (root) 
+  (triad root 'maj 'perf))
+
+(defun minor-triad (root) 
+  (triad root 'min 'perf))
+
+(defun augmented-triad (root)
+  (triad root 'maj 'aug))
+
+(defun diminished-triad (root)
+  (triad root 'min 'dim))
+
+(defun seventh-chord (root triad t7)
+  `(,@(funcall triad root) ,(transpose root (interval t7 7))))
+
+(defun dominant-seventh (root)
+  (seventh-chord root #'major-triad 'min))
+
+(defun major-seventh (root)
+  (seventh-chord root #'major-triad 'maj))
+
+(defun minor-seventh (root)
+  (seventh-chord root #'minor-triad 'min))
+
+(defun diminished-seventh (root)
+  (seventh-chord root #'diminished-triad 'dim))
+
+(defun half-diminished-seventh (root)
+  (seventh-chord root #'diminished-triad 'minor))
 
 (play-chords
  '((c e g) (d f a) (g b5 e5) (c e g c5)))
+
+(play-chords
+ (list
+  (major-triad 'c)
+  (minor-triad 'd)
+  (major-triad 'g)
+  (major-triad 'c)))
+
+(play-chords
+ (list
+  (major-triad 'c)
+  (minor-triad 'c)
+  (augmented-triad 'c)
+  (diminished-triad 'c))
+ "triads.midi")
+
+(play-chords
+ (list
+  (dominant-seventh 'c)
+  (major-seventh 'c)
+  (minor-seventh 'c)
+  (diminished-seventh 'c)
+  (half-diminished-seventh 'c))
+ "seventh-chords.midi")

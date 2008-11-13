@@ -1,4 +1,5 @@
 (in-package :cm)
+(use-package :lisp-unit)
 
 (defun play-chords (chords &optional (fn "output.midi"))
   (events
@@ -28,6 +29,12 @@
 (defun diminished-triad (root)
   (triad root 'min 'dim))
 
+(define-test triads
+  (assert-equal '(C4 E4 G4) (major-triad 'C4))
+  (assert-equal '(C4 EF4 G4) (minor-triad 'C4))
+  (assert-equal '(C4 E4 GS4) (augmented-triad 'C4))
+  (assert-equal '(C4 EF4 GF4) (diminished-triad 'C4)))
+
 (defun seventh-chord (root triad t7)
   `(,@(funcall triad root) ,(transpose root (interval t7 7))))
 
@@ -45,6 +52,13 @@
 
 (defun half-diminished-seventh (root)
   (seventh-chord root #'diminished-triad 'min))
+
+(define-test seventh-chords
+  (assert-equal '(C4 E4 G4 BF4) (dominant-seventh 'C4))
+  (assert-equal '(C4 E4 G4 B4) (major-seventh 'C4))
+  (assert-equal '(C4 EF4 G4 BF4) (minor-seventh 'C4))
+  (assert-equal '(C4 EF4 GF4 BFF4) (diminished-seventh 'C4))
+  (assert-equal '(C4 EF4 GF4 BF4) (half-diminished-seventh 'C4)))
 
 (define major-scale
     (list
@@ -75,64 +89,74 @@
 		   roman 
 		   (car roman))
 	       1))
-	 (si (nth i scale))
-	 (triad (if (numberp roman)
-		    (cadr si)
-		    (cadr roman)))
-	 (note (transpose root (car si))))
-  (funcall triad note)))
+  (si (nth i scale))
+  (triad (if (numberp roman)
+	     (cadr si)
+	     (cadr roman)))
+  (note (transpose root (car si))))
+    (funcall triad note)))
 
 (defun progression (root scale romans)
   (loop for roman in romans
-  collect (from-roman root scale roman)))
+	collect (from-roman root scale roman)))
+
+(define-test major-progressions
+  (assert-equal 
+   '((C4 E4 G4) (D4 F4 A4) (G4 B4 D5) (C4 E4 G4))
+   (progression 'c major-scale '(1 2 5 1)) )
+  (assert-equal 
+  '((C4 E4 G4) (D4 F4 A4) (G4 B4 D5 F5) (C4 E4 G4))
+   (progression 'c major-scale `(1 2 (5 ,#'dominant-seventh) 1))))
 
 (defun neapolitan (tonic)
   (major-triad
    (transpose tonic (interval 'min 2))))
 
-(play-chords
- '((c e g) (d f a) (g b5 e5) (c e g c5)))
+(define-test minor-progressions
+  (assert-equal 
+   '((C4 EF4 G4) (AF4 C5 EF5) (D4 F4 AF4) (G4 B4 D5) (C4 EF4 G4))
+   (progression 'c minor-scale '(1 6 2 5 1)))
+  (assert-equal 
+   '((C4 EF4 G4) (AF4 C5 EF5) (DF4 F4 AF4) (G4 B4 D5) (C4 EF4 G4))
+   (progression 'c minor-scale `(1 6 (1 ,#'neapolitan) 5 1))))
 
-(play-chords
- (list
-  (major-triad 'c)
-  (minor-triad 'd)
-  (major-triad 'g)
-  (major-triad 'c)))
+(define-test play-chords
+  (play-chords 
+   '((c e g) (d f a) (g b5 e5) (c e g c5)))
 
-(play-chords
- (list
-  (major-triad 'c)
-  (minor-triad 'c)
-  (augmented-triad 'c)
-  (diminished-triad 'c))
- "triads.midi")
+  (play-chords 
+   (list 
+    (major-triad 'c) 
+    (minor-triad 'd) 
+    (major-triad 'g) 
+    (major-triad 'c))
+   "triads.midi")
 
-(play-chords
- (list
-  (dominant-seventh 'c)
-  (major-seventh 'c)
-  (minor-seventh 'c)
-  (diminished-seventh 'c)
-  (half-diminished-seventh 'c))
- "seventh-chords.midi")
+  (play-chords
+   (list
+    (dominant-seventh 'c)
+    (major-seventh 'c)
+    (minor-seventh 'c)
+    (diminished-seventh 'c)
+    (half-diminished-seventh 'c))
+   "seventh-chords.midi")
 
-(play-chords
- (append
-  (progression 
-   'c major-scale
-   '(1 2 5 1))
-  (progression 
-   'c major-scale
-   `(1 2 (5 ,#'dominant-seventh) 1)))
- "progressions.midi")
+  (play-chords
+   (append
+    (progression 
+     'c major-scale
+     '(1 2 5 1))
+    (progression 
+     'c major-scale
+     `(1 2 (5 ,#'dominant-seventh) 1)))
+   "major-progressions.midi")
 
-(play-chords
- (append
-  (progression
-   'c minor-scale
-   `(1 6 2 5 1))
-  (progression 
-   'c minor-scale 
-   `(1 6 (1 ,#'neapolitan) 5 1)))
- "minor-progressions.midi")
+  (play-chords
+   (append
+    (progression
+     'c minor-scale
+     `(1 6 2 5 1))
+    (progression 
+     'c minor-scale 
+     `(1 6 (1 ,#'neapolitan) 5 1)))
+   "minor-progressions.midi"))

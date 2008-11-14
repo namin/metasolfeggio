@@ -1,0 +1,36 @@
+(in-package :cm)
+
+(defparameter *simple-harmony* 
+  '((1 (3 6 2 4 5))
+    (2 (5 7))
+    (3 (6))
+    (4 (5 7))
+    (5 (1))
+    (6 (2 4))
+    (7 (1))))
+
+(defvar *harmony* *simple-harmony*)
+
+(defun rule-lhs (rule)
+  (first rule))
+
+(defun rule-rhs (rule)
+  (first (rest rule)))
+
+(defun next-chords (category)
+  (rule-rhs (assoc category *harmony*)))
+
+(defun generate-progression (chord &optional (starting t))
+  (if (and (= chord 1) (not starting))
+      (list 1)
+      (cons chord
+	    (generate-progression 
+	     (random-elt (next-chords chord))
+	     #f))))
+
+(play-chords
+ (progression 
+  'c major-scale
+  (loop repeat 4
+	append (generate-progression 1)))
+ "generated.midi")

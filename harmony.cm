@@ -63,7 +63,7 @@
 
 (defun harmonize-rec (root scale previous-chord melody fail-cont succ-cont)
   (if (null melody)
-      (funcall succ-cont nil)
+      (funcall succ-cont nil fail-cont)
       (labels ((continue (chords)
 		 (if (null chords)
 		     (funcall fail-cont)
@@ -72,8 +72,8 @@
 		       (harmonize-rec 
 			root scale chord (cdr melody)
 			(lambda () (continue rest-chords))
-			(lambda (rest-harmony)
-			  (funcall succ-cont (cons chord rest-harmony))))))))
+			(lambda (rest-harmony fail-cont)
+			  (funcall succ-cont (cons chord rest-harmony) fail-cont)))))))
 	(continue (remove-if-not (match-harmony-fun root scale (car melody))
 				 (next-chords previous-chord))))))
 
@@ -82,11 +82,29 @@
   (harmonize-rec 
    root scale 1 (cdr melody)
    (lambda () nil)
-   (lambda (harmony) (cons 1 harmony))))
+   (lambda (harmony fail-cont) (cons 1 harmony))))
+
+(defun harmonize-all (root scale melody)
+  (let ((results nil))
+    (harmonize-rec 
+     root scale 1 (cdr melody)
+     (lambda () nil)
+     (lambda (harmony fail-cont) 
+       (set! results (cons (cons 1 harmony) results))
+       (funcall fail-cont)))
+    results))
 
 (harmonize 
  'c major-scale
  '(c b3 c d e d c))
+
+(harmonize-all
+ 'c major-scale
+ '(c b3 c d e d c))
+
+(harmonize-all
+ 'c major-scale
+ '(c d e f g g a b c5))
 
 (defun harmonized-melody (root scale melody)
   (mapcar (lambda (roman note)

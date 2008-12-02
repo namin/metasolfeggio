@@ -34,3 +34,78 @@
   (loop repeat 4
 	append (generate-progression 1)))
  "generated.midi")
+
+(defun play-melody (notes &optional (fn "output.midi"))
+  (events
+   (loop for note in notes
+	 for i = 0 then (+ i 1)
+	 collect (new midi :time i :keynum note :duration 1))
+   fn))
+
+(play-melody
+ '(c b3 c d e d c))
+
+(defun standarize (note)
+  (modulo (keynum note) 12))
+
+(defun same-note (note1 note2)
+  (= (standarize note1) (standarize note2)))
+
+(defun match-chord (chord note)
+  (some #'(lambda (chord-note)
+	    (same-note note chord-note))
+	chord))
+
+(defun match-harmony-fun (root scale note)
+  (lambda (roman)
+    (match-chord (from-roman root scale roman) note)))
+
+
+(defun harmonize-rec (root scale previous-chord melody fail-cont succ-cont)
+  (if (null melody)
+      (funcall succ-cont nil)
+      (labels ((continue (chords)
+		 (if (null chords)
+		     (funcall fail-cont)
+		     (let* ((chord (random-elt chords))
+			    (rest-chords (remove chord chords)))
+		       (harmonize-rec 
+			root scale chord (cdr melody)
+			(lambda () (continue rest-chords))
+			(lambda (rest-harmony)
+			  (funcall succ-cont (cons chord rest-harmony))))))))
+	(continue (remove-if-not (match-harmony-fun root scale (car melody))
+				 (next-chords previous-chord))))))
+
+
+(defun harmonize (root scale melody)
+  (harmonize-rec 
+   root scale 1 (cdr melody)
+   (lambda () nil)
+   (lambda (harmony) (cons 1 harmony))))
+
+(harmonize 
+ 'c major-scale
+ '(c b3 c d e d c))
+
+(defun harmonized-melody (root scale melody)
+  (mapcar (lambda (roman note)
+	    (cons (transpose note 12)
+		  (from-roman root scale roman)))
+	  (harmonize root scale melody)
+	  melody))
+
+(defun play-chords-if (chords &optional (fn "output.midi"))
+  (if (null chords)
+      'fail
+      (play-chords chords fn)))
+
+(play-chords-if
+ (harmonized-melody
+  'c major-scale
+  '(c b3 c d e d c)))
+
+(play-chords-if
+ (harmonized-melody
+  'c major-scale
+  '(c d e f g g a b c5)))

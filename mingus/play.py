@@ -5,7 +5,7 @@ from mingus.containers import NoteContainer, Note
 from mingus.midi import fluidsynth
 import time, sys
 from random import random
-
+import itertools
 
 SF2 = "ChoriumRevA.SF2"
 
@@ -66,9 +66,7 @@ def play_progression(chords):
 
 def main():
    init()
-   progression = []
-   for p in rules:
-      progression.extend(p[:-1])
+   progression = itertools.chain(*[p[:-1] for p in rules])
    chords = progressions.to_chords(progression, key)
    play_progression(chords)
    play_basic_chord(ch.I(key))

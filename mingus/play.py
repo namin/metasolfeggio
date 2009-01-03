@@ -4,17 +4,14 @@ from mingus.core import chords as ch
 from mingus.containers import NoteContainer, Note
 from mingus.midi import fluidsynth
 import time, sys
-from random import random
+from random import random, choice
 import itertools
+import rules
 
 SF2 = "ChoriumRevA.SF2"
 
 key = 'C'
-
-rules = [
-   ["I", "vi", "ii", "iii7", "I7", "viidom7", "iii7", "V7", "I"],
-   ["I", "IV", "V", "vi", "ii", "IV", "V", "I"],
-   ["I", "V", "I"]]
+minRepeat = 1
 
 def init():
    if not fluidsynth.init(SF2):
@@ -66,9 +63,15 @@ def play_progression(chords):
 
 def main():
    init()
-   progression = itertools.chain(*[p[:-1] for p in rules])
-   chords = progressions.to_chords(progression, key)
-   play_progression(chords)
+   tonic_progressions = [p for p in rules.all_progressions if p[0]=="I" and p[-1]=="I"]
+   i = 0
+   while i<minRepeat or random() > 0.5:
+      progression = choice(tonic_progressions)
+      print " ".join(progression)
+      progression = progression[:-1]
+      chords = progressions.to_chords(progression, key)
+      play_progression(chords)
+      i = i + 1
    play_basic_chord(ch.I(key))
 
 if __name__ == '__main__':

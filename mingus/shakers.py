@@ -52,4 +52,5 @@ melody = [                        'G-4         G-4',
 
 track = toTrack("C", (4,4), melody)
 
-fluidsynth.play_Track(track)
+def playTrack():
+    fluidsynth.play_Track(track=track, default_bpm=80)

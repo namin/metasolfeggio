@@ -1,7 +1,6 @@
 from mingus.containers.Bar import Bar
 from mingus.containers.Track import Track
-from mingus.midi import fluidsynth
-import play; play.init()
+from taSequencer import taSequencer
 
 doc = """
     Simple Gifts
@@ -52,5 +51,9 @@ melody = [                        'G-4         G-4',
 
 track = toTrack("C", (4,4), melody)
 
-def playTrack():
-    fluidsynth.play_Track(track=track, default_bpm=80)
+def playTrack(track=track, bmp=80):
+    import sf2
+    m = taSequencer(sf2.default)
+    m.play_Track(track=track)
+
+playTrack()

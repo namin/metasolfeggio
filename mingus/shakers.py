@@ -16,21 +16,6 @@ To turn, turn will be our delight,
 Till by turning, turning we come round right.
 """
 
-def toTrack(key, meter, melody):
-    _, base = meter
-    t = Track()
-    for mb in melody:
-        b = Bar(key, meter)
-        for mn in mb.split():
-            nr = mn.split(':')
-            n = nr[0]
-            r = base
-            if len(nr) > 1:
-                r = int(nr[1])
-            ok = b.place_notes(n, r)
-        t.add_bar(b)
-    return t
-
 melody = [                        'G-4         G-4',
           'C-5         C-5:8 D-5:8 E-5:8 C-5:8 E-5:8 F-5:8',
           'G-5         G-5:8 G-5:8 E-5         D-5:8 C-5:8',
@@ -48,6 +33,21 @@ melody = [                        'G-4         G-4',
           'E-5         E-5:8 F-5:8 G-5         G-5:8 G-5:8',
           'D-5         D-5         E-5         E-5:8 D-5:8',
           'C-5         C-5         C-5:2']
+
+def toTrack(key, meter, melody):
+    _, base = meter
+    t = Track()
+    for mb in melody:
+        b = Bar(key, meter)
+        for mn in mb.split():
+            nr = mn.split(':')
+            n = nr[0]
+            r = base
+            if len(nr) > 1:
+                r = int(nr[1])
+            ok = b.place_notes(n, r)
+        t.add_bar(b)
+    return t
 
 track = toTrack("C", (4,4), melody)
 

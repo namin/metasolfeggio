@@ -1,6 +1,7 @@
 from mingus.midi.fluidsynth import MidiSequencer
 from mingus.containers.Note import Note
 import sys
+import piano
 
 class taSequencer(MidiSequencer):
 
@@ -26,3 +27,6 @@ def testTaSequencer():
    import sf2
    m = taSequencer("ChoriumRevA.SF2")
    m.play_Note(Note("C-5"))
+
+if __name__ == '__main__':
+  testTaSequencer()

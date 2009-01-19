@@ -51,9 +51,9 @@ melody = [                        'G-4         G-4',
 
 track = toTrack("C", (4,4), melody)
 
-def playTrack(track=track, bmp=80):
+def playTrack(track=track, bpm=60):
     import sf2
     m = taSequencer(sf2.default)
-    m.play_Track(track=track)
+    m.play_Track(track=track, bpm=bpm)
 
 playTrack()

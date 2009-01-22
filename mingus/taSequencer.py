@@ -1,7 +1,11 @@
 from mingus.midi.fluidsynth import MidiSequencer
 from mingus.containers.Note import Note
+import mingus.core.notes as notes
 import sys
-import piano
+# TODO add piano
+
+movable = "do di ra re ri me mi fa fi se sol si le la li te ti".split()
+fixed = "do ra re me mi fa se sol le la te si".split()
 
 class taSequencer(MidiSequencer):
 
@@ -10,11 +14,13 @@ class taSequencer(MidiSequencer):
      self.start_audio_output(driver)
      self.load_sound_font(sf2)
      self.fs.program_reset()
+     self.i = 0
 
   def play_Note(self, note, channel = 0, velocity = 100):
       if MidiSequencer.play_Note(self, note, channel, velocity):
-         print "(",note,
+         print self.i, "(",note,'--',fixed[notes.note_to_int(note.name)],
          sys.stdout.flush()
+         self.i += 1
          return True
 
   def stop_Note(self, note, channel = 0):

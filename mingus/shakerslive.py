@@ -17,49 +17,48 @@ To bow and to bend we shan't be asham'd,
 To turn, turn will be our delight,
 Till by turning, turning we come round right.
 """
-score  = [                        'G-4         G-4        ',
-                                  'I-2                    ',
-          'C-5         C-5:8 D-5:8 E-5:8 C-5:8 E-5:8 F-5:8',
-          '',
-          'G-5         G-5:8 G-5:8 E-5         D-5:8 C-5:8',
-          '',
-          'D-5         D-5         D-5         D-5'        ,
-          '',
-          'D-5:8 E-5:8 D-5:8 B-4:8 G-4         G-4'        ,
-          '',
-          'C-5:8 B-4:8 C-5:8 D-5:8 E-5         D-5:8 D-5:8',
-          '',
-          'E-5         F-5         G-5:3             G-5:8',
-          '',
-          'D-5         D-5:8 E-5:8 D-5         C-5:8 C-5:8',
-          '',
-          'D-5         C-5:8 B-4:8 C-5:2'                  ,
-          '',
-          'G-5:2             E-5:3                   D-5:8',
-          '',
-          'E-5:8 F-5:8 E-5:8 D-5:8 C-5:3             D-5:8',
-          '',
-          'E-5         E-5:8 F-5:8 G-5         E-5'        , 
-          '',
-          'D-5         D-5:8 E-5:8 D-5:3             G-4:8',
-          '',
-          'C-5:2                   C-5:3             D-5:8',
-          '',
-          'E-5         E-5:8 F-5:8 G-5         G-5:8 G-5:8',
-          '',
-          'D-5         D-5         E-5         E-5:8 D-5:8',
-          '',
-          'C-5         C-5         C-5:2',
-          '']
 
 harmonies = "I ii ii iii7 iii7 IV V vi vi viidim viidom7".split()
+
+score  = [                        'G-4         G-4        ',
+                                  'I:2                    ',
+          'C-5         C-5:8 D-5:8 E-5:8 C-5:8 E-5:8 F-5:8',
+          '0:1',
+          'G-5         G-5:8 G-5:8 E-5         D-5:8 C-5:8',
+          '0:1',
+          'D-5         D-5         D-5         D-5'        ,
+          '0:1',
+          'D-5:8 E-5:8 D-5:8 B-4:8 G-4         G-4'        ,
+          '0:1',
+          'C-5:8 B-4:8 C-5:8 D-5:8 E-5         D-5:8 D-5:8',
+          '0:1',
+          'E-5         F-5         G-5:3             G-5:8',
+          '0:1',
+          'D-5         D-5:8 E-5:8 D-5         C-5:8 C-5:8',
+          '0:1',
+          'D-5         C-5:8 B-4:8 C-5:2'                  ,
+          '0:1',
+          'G-5:2             E-5:3                   D-5:8',
+          '0:1',
+          'E-5:8 F-5:8 E-5:8 D-5:8 C-5:3             D-5:8',
+          '0:1',
+          'E-5         E-5:8 F-5:8 G-5         E-5'        , 
+          '0:1',
+          'D-5         D-5:8 E-5:8 D-5:3             G-4:8',
+          '0:1',
+          'C-5:2                   C-5:3             D-5:8',
+          '0:1',
+          'E-5         E-5:8 F-5:8 G-5         G-5:8 G-5:8',
+          '0:1',
+          'D-5         D-5         E-5         E-5:8 D-5:8',
+          '0:1',
+          'C-5         C-5         C-5:2',
+          '0:1']
 
 def go(key='C', meter=(4,4), score=score, mul=1.0):
     _, base = meter
     for i in xrange(0, len(score)/2):
-        melodyL = score[2*i]
-        harmonyL = score[2*i+1]
-        for mn in melodyL.split():
+        for mn in score[2*i].split():
             nr = mn.split(':')
             n = nr[0]
             r = base

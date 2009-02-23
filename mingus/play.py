@@ -18,6 +18,13 @@ def init():
       print "Couldn't load soundfont", SF2
       sys.exit(1)
 
+def play_high_note(n):
+   l = Note(n)
+   l.octave_up()
+   print l
+   fluidsynth.play_Note(l)
+   return l
+
 def play_basic_chord(chord):
    c = NoteContainer(chord)
    l = Note(c[0].name)

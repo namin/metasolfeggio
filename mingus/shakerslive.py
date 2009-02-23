@@ -56,7 +56,6 @@ harmonies = "I ii ii iii7 iii7 IV V vi vi viidim viidom7".split()
 
 def go(key='C', meter=(4,4), score=score, mul=1.0):
     _, base = meter
-    skip = False
     for i in xrange(0, len(score)/2):
         melodyL = score[2*i]
         harmonyL = score[2*i+1]

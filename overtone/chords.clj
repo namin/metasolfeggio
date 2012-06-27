@@ -31,7 +31,9 @@
   )
 
 (defn roman->chord [root scale roman]
-  [(find-note-name (+ (note root) (degree->interval roman scale)))
+  [(find-note-name (+ (note root)
+                      (degree->interval roman scale)
+                      (if (and (= roman 7) (= scale :minor)) 1 0)))
    (nth (scale SCALE_CHORDS) (dec roman))])
 
 (defn progression [root scale romans]
@@ -57,15 +59,31 @@
         notes (rand-chord chord-root chord-name (count beat-offsets) note-range)]
    (play-notes metro beat notes beat-offsets)))
 
+(def harmony
+  (sorted-map
+   1 [3 6 2 4 5]
+   2 [5 7]
+   3 [6]
+   4 [5 7]
+   5 [1]
+   6 [2 4]
+   7 [1]
+  )
+)
+
+(defn harmony->progression [roman]
+  (if (and (= roman 1) (= (rand-int 2) 0))
+    [1]
+    (conj (harmony->progression (choose (get harmony roman)))
+          roman)))
+
 (def chord-progs
   [
-   [3 6 2 4 5]
-   [5 7]
-   [6]
-   [5 7]
    [1]
    [2 4]
-   [1]
+   [5 7]
+   [6]
+   [2 4]
    [5 7]
    [1]
   ]
@@ -73,9 +91,10 @@
 
 (defn play-progression [metro beat p]
   (when p
+    (println (first p))
     (play-chord metro beat (first p))
     (apply-at (metro (inc beat)) #'play-progression [metro (inc beat) (rest p)])))
 
-;(play-progression metro (metro) (progression :C4 :major (conj (map choose chord-progs) 1)))
-
-;(play-progression metro (metro) (progression :C4 :minor (conj (map choose chord-progs) 1)))
+;(play-progression metro (metro) (progression :C4 :major (map choose chord-progs)))
+;(play-progression metro (metro) (progression :C4 :minor (map choose chord-progs)))
+;(play-progression metro (metro) (progression :C4 :minor (harmony->progression 1)))

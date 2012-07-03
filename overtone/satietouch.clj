@@ -1,5 +1,4 @@
-(use 'overtone.core)
-(boot-internal-server)
+(use 'overtone.live)
 (use 'overtone.inst.sampled-piano)
 
 ;;Erik Satie Gnossienne No. 1

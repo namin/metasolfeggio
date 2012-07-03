@@ -1,6 +1,9 @@
 (use 'overtone.live)
-
-(def server (osc-server 44100 "osc-clj"))
+(use 'overtone.inst.sampled-piano)
+(use 'overtone.inst.)
+(def client-host "192.168.1.35")
+(def server (osc-server 44100))
+(def client (osc-client client-host 9801))
 
 ; (osc-listen server (fn [msg] (println msg)) :debug)
 

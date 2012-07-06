@@ -21,6 +21,53 @@
    (map-indexed (fn [i s] (dorun (map #(play-beat metro (+ beat i) %) s)))
                 piece)))
 
+
+(defn map-note [f piece]
+  (map (fn [line] (map (fn [notes] (map f notes)) line)) piece))
+
+(defn df [x]
+  (if (number? x)
+    [x 0 :x]
+    (if (nil? (rest (rest x)))
+      [(first x) (second x) :x]
+      x)))
+
+(defn dfr [x]
+  (let [[n d _] (df x)] [n d :r]))
+
+(defn adj [delta]
+  (fn [x]
+    (let [[n d] (df x)]
+      (let [nn (+ n delta)]
+        (if (< nn 1)
+          [(+ 7 nn) (- d 1)]
+          [nn d])))))
+
+(def t
+  [[[6 5 4 3]]
+   [[4] [4 [7 -1] 2 4]]
+   [[4] [4 [3 -1] [5 -1] [7 -1] 3]]])
+
+(defn p [t]
+  (concat
+   [[[[1 -1] [3 -1] [5 -1] 1 3]]]
+   [[[5] [5 [4 -1] [6 -1] 1 4]]]
+   t
+   (map-note (adj -1) t)
+   (map-note (comp dfr (adj -2)) t)
+   (map-note (comp dfr (adj -3)) t)
+   [[[1] [[1 -1] [3 -1] [5 -1] 1]]]))
+
+(defn f [p root]
+  (let [s (vec (scale root :minor))]
+    (map-note (fn [x]
+                (let [[n d kw] (df x)]
+                  (let [r (+ (s (dec n)) (* 12 d))]
+                    (if (and (= n 7) (= kw :r))
+                      (+ r 1)
+                      r))))
+              p)))
+
 (def piece
   (let* [c1 (split-at 5 (chord-n 6 (chord :c4 :minor)))
          f (conj (chord-n 4 (chord :f4 :minor)) (first (second c1)))
@@ -44,6 +91,15 @@
          [(map note [:eb5 :d5 :c5 :b4])]
          [[(note :c5)] (chord-n 6 (invert-chord (chord :c4 :minor) 1))]]))
 
-piece
+(defn change [x]
+  (if (<= (note :c5) x (note :b5))
+    x
+    (if (< x (note :c5))
+      (recur (+ x 12))
+      (recur (- x 12)))))
+
 (def metro (metronome 32))
-(play-piece metro (metro) piece)
+;(play-piece metro (metro) (map-note change piece))
+;(play-piece metro (metro) (f (p t) :c5))
+;(play-piece metro (metro) piece)
+;(stop)

@@ -13,7 +13,10 @@
     (dorun
      (map-indexed (fn [i note]
                     (at (metro (+ beat (noise) (/ i n)))
-                      (sampled-piano note)))
+                      (when note
+                        (if (number? note)
+                          (sampled-piano note)
+                          (apply sampled-piano note)))))
                   notes))))
 
 (defn play-piece [metro beat piece]
@@ -91,6 +94,37 @@
          [(map note [:eb5 :d5 :c5 :b4])]
          [[(note :c5)] (chord-n 6 (invert-chord (chord :c4 :minor) 1))]]))
 
+(defn level [v]
+  (fn [note] (if note [note v] note)))
+
+(def piece2
+  (let []
+    (concat
+     (take 2 (repeat [(map note [:c4 nil :eb4 nil :eb4 nil])
+                      (map note [:c4 nil :g4 nil :g4 nil])
+                      (map (comp (level 2) note) [:g5 :g5 nil :f5 :g5 nil])]))
+     (take 2 (repeat [(map (comp (level 2) note) [:ab5 nil nil :f5 :eb5 :d5])
+                      (map note [:d4 nil :f4 nil :f4])
+                      (map note [:d4 nil :ab4 nil :ab4])]))
+     (take 2 (repeat [(map (comp (level 2) note) [:g5 nil nil :eb5 :d5 :c5])
+                      (map note [:c4 nil :eb4 nil :eb4])
+                      (map note [:c4 nil :g4 nil :g4])]))
+     (take 2 (repeat [(map (comp (level 2) note) [:f5 nil nil :d5 :c5 :b4])
+                      (map note [:g3 nil :b3 nil :b3])
+                      (map note [:g3 nil :d4 nil :d4])]))
+     (take 2 (repeat [(map note [:c4 nil :eb4 :eb4 :eb4 :eb4])
+                      (map note [:c4 nil :g4 :g4 :g4 :g4])
+                      (map (comp (level 2) note) [:c5 nil nil nil nil nil])]))
+     (apply concat (take 2 (repeat (concat
+                       [[(let [s (map note [:g5 :f5 :eb5 :d5 :c5 :d5])]
+                           (cons ((level 2) (first s)) (rest s)))]]
+                       [[(map note [:d4 :f4 :f4 :f4 :f4])
+                         (map note [:d4 :ab4 :ab4 :ab4 :ab4])]]
+                       [[(let [s (map note [:f5 :eb5 :d5 :c5 :b4 :c5])]
+                           (cons ((level 2) (first s)) (rest s)))]]
+                       [[(map note [:c4 :eb4 :eb4 :eb4 :eb4])
+                         (map note [:c4 :eb4 :g4 :g4 :g4])]])))))))
+
 (defn change [x]
   (if (<= (note :c5) x (note :b5))
     x
@@ -98,8 +132,9 @@
       (recur (+ x 12))
       (recur (- x 12)))))
 
-(def metro (metronome 32))
+(def metro (metronome 64))
 ;(play-piece metro (metro) (map-note change piece))
 ;(play-piece metro (metro) (f (p t) :c5))
 ;(play-piece metro (metro) piece)
+;(play-piece metro (metro) piece2)
 ;(stop)

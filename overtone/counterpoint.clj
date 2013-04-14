@@ -64,7 +64,7 @@
           [(== d ())
            (== dout ())
            (perfect-consonanto a ao)]
-          [(consonanto a ao)
+          [(imperfect-consonanto a ao)
            (counterpointitero key ao d dout)])))
 
 (defn counterpointo [key melody out]

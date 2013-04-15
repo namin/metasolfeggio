@@ -1383,9 +1383,9 @@ main()
 {
   FillRhyPat();
 
-#if 0
+#if EXS
   fillCantus(50,53,52,50,55,53,57,55,53,52,50,0,0,0,0); 
-  vbs[0]=57; vbd[1]=62;
+  vbs[0]=57; vbs[1]=62;
   AnySpecies(Dorian,vbs,1,11,1);            /* 57 62 -- 38,45,57,62,69,53,50 */
   vbs[0]=38;
   AnySpecies(Dorian,vbs,1,11,1);            /* 38 57 */

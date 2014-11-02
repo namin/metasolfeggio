@@ -105,6 +105,7 @@
   (play-piece (bpm 120) (counterpoints-of ex-key [0 1 2 3 4 3 2 1 0] (repeat 1)))
   (play-piece (bpm 120) (counterpoints-of ex-key [-3  -3   0   0   1   2   0] [ 1   1   1 1/2 1/2 1/2 1/2]))
   (play-piece (bpm 120) (counterpoints-of ex-key [  4   2   1   2   3   2   1   0] [  2 3/2 1/2 1/2 1/2 1/2 1/2 3/2]))
+  (stop)
 )
 
 (defn counterphrase [durs melody]
@@ -142,4 +143,5 @@
        (then (counterphrase [1/2 1/2   1   1   1 1/2 1/2   1   1   1]
                             [  4   4   1   1   2   2   1   0   0   0]))))
 (comment
-  (play-piece (bpm 120) shakers-song))
+  (play-piece (bpm 120) shakers-song)
+  (stop))

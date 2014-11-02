@@ -1,4 +1,4 @@
-(ns leipzig.example.shakers
+(ns metasolfeggio.shakers_leipzig
   (:use
     leipzig.melody
     leipzig.scale
@@ -56,4 +56,4 @@
 
 (comment
   (shakers (bpm 120) (comp C major))
-)
+  (stop))

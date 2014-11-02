@@ -1,4 +1,4 @@
-(ns examples.satie
+(ns metasolfeggio.satie
   (:use [clojure.core.match :only [match]]
         [overtone.live]
         [overtone.inst sampled-piano]))
@@ -79,4 +79,6 @@
                         (sampled-piano lh))))]
     (dorun (map play-note (beats rh-pitches) rh-pitches lh-pitches))))
 
-;(play (metronome 128))
+(comment
+  (play (metronome 128))
+  (stop))

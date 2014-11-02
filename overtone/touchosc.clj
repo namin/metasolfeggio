@@ -1,6 +1,10 @@
-(use 'overtone.live)
-(use 'overtone.inst.sampled-piano)
-(use 'overtone.inst.)
+(ns metasolfeggio.touchosc
+  (:use [overtone.live]
+        [overtone.inst sampled-piano]))
+
+;; TODO(namin): ensure this still works, like in
+;; https://github.com/overtone/overtone/wiki/TouchOSC
+;; ditto for satietouch example
 (def client-host "192.168.1.35")
 (def server (osc-server 44100))
 (def client (osc-client client-host 9801))

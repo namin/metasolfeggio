@@ -95,6 +95,8 @@
     (play-chord metro beat (first p))
     (apply-at (metro (inc beat)) #'play-progression [metro (inc beat) (rest p)])))
 
-;(play-progression metro (metro) (progression :C4 :major (map choose chord-progs)))
-;(play-progression metro (metro) (progression :C4 :minor (map choose chord-progs)))
-;(play-progression metro (metro) (progression :C4 :minor (harmony->progression 1)))
+(comment
+  (play-progression metro (metro) (progression :C4 :major (map choose chord-progs)))
+  (play-progression metro (metro) (progression :C4 :minor (map choose chord-progs)))
+  (play-progression metro (metro) (progression :C4 :minor (harmony->progression 1)))
+  (stop))

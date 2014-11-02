@@ -1,5 +1,7 @@
-(use 'overtone.live)
-(use 'overtone.inst.sampled-piano)
+(ns metasolfeggio.at_all
+  (:use
+    [overtone.live]
+    [overtone.inst.sampled-piano]))
 
 (defn noise []
   (* (rand) 0.0))
@@ -133,8 +135,9 @@
       (recur (- x 12)))))
 
 (def metro (metronome 64))
-;(play-piece metro (metro) (map-note change piece))
-;(play-piece metro (metro) (f (p t) :c5))
-;(play-piece metro (metro) piece)
-;(play-piece metro (metro) piece2)
-;(stop)
+(comment
+  (play-piece metro (metro) (map-note change piece))
+  (play-piece metro (metro) (f (p t) :c5))
+  (play-piece metro (metro) piece)
+  (play-piece metro (metro) piece2)
+  (stop))

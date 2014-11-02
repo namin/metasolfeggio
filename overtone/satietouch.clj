@@ -1,5 +1,6 @@
-(use 'overtone.live)
-(use 'overtone.inst.sampled-piano)
+(ns metasolfeggio.satie
+  (:use [overtone.live]
+        [overtone.inst sampled-piano]))
 
 ;;Erik Satie Gnossienne No. 1
 (def phrase1a [:iii :v :iv# :iii :iii :ii# :iii :ii#])
@@ -92,14 +93,16 @@
         (sampled-piano p (vol-mul vol)))
       (sampled-piano pitch (vol-mul vol)))))
 
-
+;; TODO(namin): ensure this still works, like in
+;; https://github.com/overtone/overtone/wiki/TouchOSC
 (def client-host "192.168.1.35")
 (def server (osc-server 44100))
 (def client (osc-client client-host 9801))
 
-;(osc-listen server (fn [msg] (println msg)) :debug)
-;(osc-rm-all-handlers server)
-;(stop)
+(comment
+  (osc-listen server (fn [msg] (println msg)) :debug)
+  (osc-rm-all-handlers server)
+  (stop))
 
 (def metro (metronome 512))
 (def last-lh (atom -1))

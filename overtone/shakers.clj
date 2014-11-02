@@ -1,5 +1,6 @@
-(use 'overtone.live)
-(use 'overtone.inst.sampled-piano)
+(ns metasolfeggio.satie
+  (:use [overtone.live]
+        [overtone.inst sampled-piano]))
 
 (defn player
   [t speed notes]
@@ -33,4 +34,6 @@
    [:C5 4]         [:C5 4]         [:C5 2]
 ])
 
-(player (now) 380 shakers-melody)
+(comment
+  (player (now) 380 shakers-melody)
+  (stop))

@@ -1,7 +1,7 @@
 ;; from https://gist.github.com/2018154
-(ns overtunes.songs.at-all
+(ns metasolfeggio.at_all
   (:use
-    [overtone.live :only [at now]]
+    [overtone.live :only [at now stop]]
     [overtone.inst.sampled-piano :only [sampled-piano]]))
 
 (defn bpm [beats-per-minute]
@@ -103,4 +103,6 @@
 
 (defn play# [] (-> (bpm 160) (from 2) intro# first-bit# (speed-up 3/2) variation# final-chord#))
 
-; (play#)
+(comment
+  (play#)
+  (stop))

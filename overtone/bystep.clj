@@ -1,4 +1,4 @@
-(ns metasolfeggio.at_all
+(ns metasolfeggio.bystep
   (:use
     [overtone.live]
     [overtone.inst.sampled-piano]))
@@ -8,7 +8,7 @@
 
 (defn chord-n [n chord]
   (let [roots (iterate #(+ 12 %) 0)]
-    (take n (flatten (map (fn [root] (map #(+ root %) chord)) roots)))))
+    (take n (flatten (map (fn [root] (map #(+ root %) (sort chord))) roots)))))
 
 (defn play-beat [metro beat notes]
   (let [n (count notes)]
@@ -94,7 +94,7 @@
          [(map note [:d5]) (cons (note :d5) g)]
          [[(note :d5)] c]
          [(map note [:eb5 :d5 :c5 :b4])]
-         [[(note :c5)] (chord-n 6 (invert-chord (chord :c4 :minor) 1))]]))
+         [[(note :c5)] (chord-n 6 (chord :c4 :minor))]]))
 
 (defn level [v]
   (fn [note] (if note [note v] note)))
@@ -134,10 +134,23 @@
       (recur (+ x 12))
       (recur (- x 12)))))
 
+(def s (vec (scale :c5 :minor)))
+(defn circle [d vs i n]
+  (if (> n 8)
+    '()
+    (let [v (vs (mod n (count vs)))]
+      (cons (map (fn [x]
+                   (if x
+                     (s (mod (+ (dec i) (dec x)) 8))
+                     x)) v)
+            (circle d vs (+ i d) (inc n))))))
+
 (def metro (metronome 64))
 (comment
   (play-piece metro (metro) (map-note change piece))
   (play-piece metro (metro) (f (p t) :c5))
   (play-piece metro (metro) piece)
   (play-piece metro (metro) piece2)
-  (stop))
+  (play-piece metro (metro) (map (fn [x] [x]) (circle 5 [[5 3 1] [1 2 3]] 1 0)))
+  (stop)
+  )

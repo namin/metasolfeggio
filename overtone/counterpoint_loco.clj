@@ -1,11 +1,10 @@
 (ns metasolfeggio.counterpoint
-  (:refer-clojure :exclude [==])
   (:use leipzig.melody
         leipzig.scale
         leipzig.canon
         leipzig.live)
-  (:use [clojure.core.logic :exclude [is all] :as l])
-  (:require [clojure.core.logic.fd :as fd])
+  (:use [loco.core]
+        [loco.constraints])
   (:require [overtone.live :as overtone]
             [overtone.inst.sampled-piano :as piano]))
 
@@ -24,55 +23,52 @@
        (where :duration speed)
        play))
 
-;;; CLP(FD) for (approximately) Fuxian First Species Counterpoint
-(defn noteo-of [key]
-  (let [d (apply fd/domain (map key (range -10 10)))]
-    (fn [x]
-      (fd/in x d))))
-
-(defn check-intervalo-in [ds]
-  (let [id (apply fd/domain (concat ds (map #(+ % 12) ds)))]
+;;; helpers for music interval constraints
+(defn check-interval-in [ds]
+  (let [id (concat ds (map #(+ % 12) ds))]
     (fn [x y]
-      (fresh [i]
-             (fd/in i id)
-             (fd/- x y i)))))
+      (apply $or (map #($= ($- x y) %) id)))))
 
-(def perfect-consonanto
-  (check-intervalo-in [0 5 7]))
+(def $perfect-consonant
+  (check-interval-in [0 5 7]))
 
-(def consonanto
-  (check-intervalo-in [0 3 4 5 7 8 9]))
+(def $consonant
+  (check-interval-in [0 3 4 5 7 8 9]))
 
-(def imperfect-consonanto
-  (check-intervalo-in [3 4 8 9]))
+(def $imperfect-consonant
+  (check-interval-in [3 4 8 9]))
 
-(defn counterpointitero [key prev melody out]
-  (fresh [a d ao dout previ i]
-         (conso a d melody)
-         (conso ao dout out)
-         ((noteo-of key) ao)
-         (fd/< ao a)
-         (fd/in i (fd/interval 0 10))
-         (fd/+ prev 5 previ)
-         (fd/- previ ao i)
-         (conde
-          [(== d ())
-           (== dout ())
-           (perfect-consonanto a ao)]
-          [(imperfect-consonanto a ao)
-           (counterpointitero key ao d dout)])))
+;;; (approximately) Fuxian First Species Counterpoint
+(defn counterpoint-model [key melody]
+  (let [m (vec melody)
+        n (count m)
+        l (dec n)
+        d (map key (range -10 10))]
+    (concat
+     (for [i (range n)]
+       ($in [:x i] d))
+     (for [i (range n)]
+       ($< [:x i] (m i)))
+     [($perfect-consonant (m 0) [:x 0])
+      ($perfect-consonant (m l) [:x l])]
+     (for [i (range 1 l)]
+       ($imperfect-consonant (m i) [:x i]))
+     ;; TODO: a good place to experiment with optimization criteria
+     (for [i (range 0 l)]
+       ($< ($abs ($- [:x i] [:x (inc i)])) 5)))))
 
-(defn counterpointo [key melody out]
-  (fresh [a d ao dout last]
-         (conso a d melody)
-         (conso ao dout out)
-         ((noteo-of key) ao)
-         (fd/< ao a)
-         (perfect-consonanto a ao)
-         (counterpointitero key ao d dout)))
+(defn solution->melody [sol]
+  (for [i (range (count sol))]
+    (sol [:x i])))
 
+(comment
+  (solution->melody (solution (counterpoint-model ex-key (map ex-key [0 1 2 3 4 3 2 1 0]))))
+  (map solution->melody (solutions (counterpoint-model ex-key (map ex-key [0 1 2 3 4 3 2 1 0]))))
+)
 
-;;; -- Examples --
+(defn counterpoint-of [key melody durs]
+  (solution->melody (solution (counterpoint-model key (map key melody)))))
+
 (defn create-counterpoint [durs melody counterpoint]
   (->> (phrase durs counterpoint)
        (where :part (is :follower))
@@ -81,13 +77,9 @@
                   (with (->> (phrase durs counterpoint)
                              (where :part (is :follower))))))))
 
-
-(defn counterpoint-of [key melody durs]
-  (first (run 1 [q] (counterpointo key (map key melody) q))))
-
 (defn counterpoints-of [key melody durs]
   (let [amelody (map key melody)
-        cs (run* [q] (counterpointo key amelody q))]
+        cs (map solution->melody (solutions (counterpoint-model key amelody)))]
     (letfn [(rec [cs]
               (if (empty? cs)
                 ()

@@ -55,7 +55,7 @@
        ($imperfect-consonant (m i) [:x i])))))
 (defn counterpoint-restrict [n]
   (for [i (range 0 (dec n))]
-    ($< ($abs ($- [:x i] [:x (inc i)])) 5)))
+    ($< ($abs ($- [:x i] [:x (inc i)])) 3)))
 (defn counterpoint-minimize [n]
   (apply $+
          (for [i (range 0 (dec n))]

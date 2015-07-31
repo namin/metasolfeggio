@@ -3,9 +3,10 @@
 
 (defproject metasolfeggio "0.1-SNAPSHOT"
   :description "Computer-Aided Harmony and Counterpoint"
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/core.logic "0.8.8"]
-                 [org.clojure/core.match "0.2.2"]
-                 [overtone "0.9.1"]
-                 [leipzig "0.7.0" :exclusions [org.clojure/clojure]] ;; not updated to 0.8.0
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/core.logic "0.8.10"]
+                 [org.clojure/core.match "0.3.0-alpha4"]
+                 [loco "0.3.0"]
+                 [overtone "0.10-SNAPSHOT"]
+                 [leipzig "0.8.1" :exclusions [org.clojure/clojure]] ;; ;; issues with nothing playing in 0.9.0
                  ])

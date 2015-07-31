@@ -4,19 +4,14 @@
         leipzig.scale
         leipzig.canon
         leipzig.live)
-  (:use [clojure.core.logic :exclude [is] :as l])
+  (:use [clojure.core.logic :exclude [is all] :as l])
   (:require [clojure.core.logic.fd :as fd])
   (:require [overtone.live :as overtone]
-            [overtone.synth.stringed :as strings]))
-
+            [overtone.inst.sampled-piano :as piano]))
 
 ;;; Generic Overtone/Leipzig setup
-(strings/gen-stringed-synth ektara 1 true)
-
-(defn pick [distort amp {midi :pitch, start :time, length :duration}]
-    (let [synth-id (overtone/at start
-                     (ektara midi :distort distort :amp amp :gate 1))]
-      (overtone/at (+ start length) (overtone/ctl synth-id :gate 0))))
+(defn pick [a b {midi :pitch}]
+  (piano/sampled-piano midi))
 
 (defmethod play-note :leader [note]
   (pick 0.7 1.0 note))

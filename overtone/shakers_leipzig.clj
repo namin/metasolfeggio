@@ -1,21 +1,14 @@
 (ns metasolfeggio.shakers_leipzig
-  (:use
-    leipzig.melody
-    leipzig.scale
-    leipzig.canon
-    leipzig.live)
   (:require [overtone.live :as overtone]
-            [overtone.synth.stringed :as strings]))
+            [overtone.inst.sampled-piano :as piano]
+            [leipzig.melody :refer [bpm is phrase then times where with]]
+            [leipzig.scale :as scale]
+            [leipzig.canon :as canon]
+            [leipzig.chord :as chord]
+            [leipzig.live :as live]))
 
-(strings/gen-stringed-synth ektara 1 true)
-
-(defn pick [distort amp {midi :pitch, start :time, length :duration}]
-    (let [synth-id (overtone/at start
-                     (ektara midi :distort distort :amp amp :gate 1))]
-      (overtone/at (+ start length) (overtone/ctl synth-id :gate 0))))
-
-(defmethod play-note :leader [note]
-  (pick 0.7 1.0 note))
+(defmethod live/play-note :leader [{midi :pitch seconds :duration}]
+  (piano/sampled-piano midi))
 
 (def melody
        ;;;  it is a gift to be simple
@@ -52,8 +45,8 @@
     (where :time speed)
     (where :duration speed)
     (where :pitch key)
-    play))
+    live/play))
 
 (comment
-  (shakers (bpm 120) (comp C major))
-  (stop))
+  (shakers (bpm 120) (comp scale/C scale/major))
+  (live/stop))

@@ -52,9 +52,10 @@
      [($perfect-consonant (m 0) [:x 0])
       ($perfect-consonant (m l) [:x l])]
      (for [i (range 1 l)]
-       ($imperfect-consonant (m i) [:x i]))
-     (for [i (range 0 l)]
-       ($< ($abs ($- [:x i] [:x (inc i)])) 5)))))
+       ($imperfect-consonant (m i) [:x i])))))
+(defn counterpoint-restrict [n]
+  (for [i (range 0 (dec n))]
+    ($< ($abs ($- [:x i] [:x (inc i)])) 5)))
 (defn counterpoint-minimize [n]
   (apply $+
          (for [i (range 0 (dec n))]
@@ -84,7 +85,8 @@
 
 (defn counterpoints-of [key melody durs]
   (let [amelody (map key melody)
-        cs (map solution->melody (solutions (counterpoint-model key amelody)))]
+        cs (map solution->melody (solutions (concat (counterpoint-model key amelody)
+                                                    (counterpoint-restrict (count amelody)))))]
     (letfn [(rec [cs]
               (if (empty? cs)
                 ()

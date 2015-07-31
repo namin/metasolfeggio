@@ -53,9 +53,13 @@
       ($perfect-consonant (m l) [:x l])]
      (for [i (range 1 l)]
        ($imperfect-consonant (m i) [:x i]))
-     ;; TODO: a good place to experiment with optimization criteria
      (for [i (range 0 l)]
        ($< ($abs ($- [:x i] [:x (inc i)])) 5)))))
+(defn counterpoint-minimize [n]
+  (apply $+
+         (for [i (range 0 (dec n))]
+           ($abs ($- [:x i] [:x (inc i)])))))
+
 
 (defn solution->melody [sol]
   (for [i (range (count sol))]
@@ -67,7 +71,8 @@
 )
 
 (defn counterpoint-of [key melody durs]
-  (solution->melody (solution (counterpoint-model key (map key melody)))))
+  (solution->melody (solution (counterpoint-model key (map key melody))
+                              :minimize (counterpoint-minimize (count melody)))))
 
 (defn create-counterpoint [durs melody counterpoint]
   (->> (phrase durs counterpoint)
@@ -90,6 +95,7 @@
 
 (comment
   (play-piece (bpm 120) (counterpoints-of ex-key [0 1 2 3 4 3 2 1 0] (repeat 1)))
+  (play-piece (bpm 120) (create-counterpoint (repeat 1) (map ex-key [0 1 2 3 4 3 2 1 0]) (counterpoint-of ex-key [0 1 2 3 4 3 2 1 0] (repeat 1))))
   (play-piece (bpm 120) (counterpoints-of ex-key [-3  -3   0   0   1   2   0] [ 1   1   1 1/2 1/2 1/2 1/2]))
   (play-piece (bpm 120) (counterpoints-of ex-key [  4   2   1   2   3   2   1   0] [  2 3/2 1/2 1/2 1/2 1/2 1/2 3/2]))
   (stop)
@@ -101,6 +107,12 @@
        (with (->> (phrase durs (counterpoint-of ex-key melody durs))
                   (where :part (is :follower))))))
 
+(comment
+  (play-piece (bpm 120) (counterphrase (repeat 1) [0 1 2 3 4 3 2 1 0]))
+  (play-piece (bpm 120) (counterphrase [ 1   1   1 1/2 1/2 1/2 1/2] [-3  -3   0   0   1   2   0]))
+  (play-piece (bpm 120) (counterphrase  [  2 3/2 1/2 1/2 1/2 1/2 1/2 3/2] [  4   2   1   2   3   2   1   0]))
+  (stop)
+)
 (def shakers-song
        ;;;  it is a gift to be simple
   (->> (counterphrase [ 1   1   1 1/2 1/2 1/2 1/2]

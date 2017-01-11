@@ -3,10 +3,11 @@
 
 (defproject metasolfeggio "0.1-SNAPSHOT"
   :description "Computer-Aided Harmony and Counterpoint"
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/core.logic "0.8.10"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/core.logic "0.8.11"]
                  [org.clojure/core.match "0.3.0-alpha4"]
-                 [loco "0.3.0"]
-                 [overtone "0.10-SNAPSHOT"]
-                 [leipzig "0.8.1" :exclusions [org.clojure/clojure]] ;; ;; issues with nothing playing in 0.9.0
+                 [loco "0.3.1"]
+                 [overtone "0.10.1"]
+                 ;; cannot upgrade leipzig without changing code?
+                 [leipzig "0.8.1" :exclusions [org.clojure/clojure]]
                  ])

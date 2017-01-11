@@ -1,4 +1,4 @@
-(ns metasolfeggio.counterpoint
+(ns metasolfeggio.counterpoint_loco
   (:use leipzig.melody
         leipzig.scale
         leipzig.canon

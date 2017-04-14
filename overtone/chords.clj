@@ -73,9 +73,9 @@
 
 (defn harmony->progression [roman]
   (if (and (= roman 1) (= (rand-int 2) 0))
-    [1]
-    (conj (harmony->progression (choose (get harmony roman)))
-          roman)))
+    '(1)
+    (cons roman
+          (harmony->progression (choose (get harmony roman))))))
 
 (def chord-progs
   [

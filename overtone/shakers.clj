@@ -1,4 +1,4 @@
-(ns metasolfeggio.satie
+(ns metasolfeggio.shakers
   (:use [overtone.live]
         [overtone.inst sampled-piano]))
 

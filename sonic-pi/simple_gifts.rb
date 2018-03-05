@@ -48,15 +48,38 @@ sleep 1
 play _sol
 sleep 0.5
 # be
-play _fa
+play _sol
 sleep 0.5
 # free
 play _mi
 sleep 1
 
 # 'Tis a gift to come down
+# 'Tis
+play _re
+sleep 0.5
+# a
+play _do
+sleep 0.5
+# gift
+play _re
+sleep 1
+# to
+play _re
+sleep 0.5
+# come
+play _re
+sleep 0.5
+# down
+play _re
+sleep 1
 
 # Where we ought to be;
+# Where
+# we
+# ought
+# to
+# be
 
 # And when we find ourselves
 

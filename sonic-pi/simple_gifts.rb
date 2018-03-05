@@ -7,6 +7,8 @@ __sol = 65
 _do   = 72
 _re   = 74
 _mi   = 76
+_fa   = 77
+_sol  = 79
 
 # 'Tis a gift to be simple,
 # 'Tis
@@ -33,6 +35,24 @@ sleep 0.5
 
 
 # 'Tis a gift to be free.
+# 'Tis
+play _mi
+sleep 0.5
+# a
+play _fa
+sleep 0.5
+# gift
+play _sol
+sleep 1
+# to
+play _sol
+sleep 0.5
+# be
+play _fa
+sleep 0.5
+# free
+play _mi
+sleep 1
 
 # 'Tis a gift to come down
 

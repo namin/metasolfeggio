@@ -3,11 +3,6 @@ use_bpm 120
 #       ;;;  it is a gift to be simple
 #       (phrase [ 1   1   1 1/2 1/2 1/2 1/2]
 #               [-3  -3   0   0   1   2   0])
-use_bpm 120
-
-#       ;;;  it is a gift to be simple
-#       (phrase [ 1   1   1 1/2 1/2 1/2 1/2]
-#               [-3  -3   0   0   1   2   0])
 
 play 67
 sleep 1
@@ -26,7 +21,21 @@ sleep 0.6
 
 #       ;;; it's a  gift to be free
 #       (then (phrase [1/2 1/2   1 1/2 1/2   1]
-#                     [  2   3   4   4   4   2]))
+#                     [  3   4   5   5   4   3]))
+#       TODO leipzig was wrong
+play 76
+sleep 0.4
+play 77
+sleep 0.5
+play 79
+sleep 1
+play 79
+sleep 0.5
+play 77
+sleep 0.5
+play 76
+sleep 1
+
 #       ;;; it's a gift to come round where we ought to be
 #       (then (phrase [1/2 1/2   1   1   1   1 1/2 1/2 1/2 1/2   1]
 #                     [  1   0   1   1   1   1   1   2   1  -1  -3]))

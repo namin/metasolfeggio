@@ -1,6 +1,9 @@
+use_bpm 120
+
 #       ;;;  it is a gift to be simple
 #       (phrase [ 1   1   1 1/2 1/2 1/2 1/2]
 #               [-3  -3   0   0   1   2   0])
+
 #       ;;; it's a  gift to be free
 #       (then (phrase [1/2 1/2   1 1/2 1/2   1]
 #                     [  2   3   4   4   4   2]))

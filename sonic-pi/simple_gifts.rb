@@ -1,3 +1,34 @@
+# Recited from
+# https://www.youtube.com/watch?v=CLAnuG1340g
+
+# 'Tis a gift to be simple,
+
+# 'Tis a gift to be free.
+
+# 'Tis a gift to come down
+
+# Where we ought to be;
+
+# And when we find ourselves
+
+# In the place just right,
+
+# 'Twill be in the value
+
+# Of love and delight
+
+# When true simplicity is gained,
+
+# To bow and to bend
+
+# We shan't be ashamed;
+
+# To turn, turn will be our delight
+
+# Till by turning, turning
+
+# We come 'round right.
+
 use_bpm 120
 
 #       ;;;  it is a gift to be simple

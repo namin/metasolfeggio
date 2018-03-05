@@ -63,12 +63,12 @@ play 67
 sleep 1
 
 #       ;;; and when we find ourselves in the place just right
-#       (then (phrase [  1 1/2 1/2 1/2 1/2   1 1/2 1/2   1   1]
-#                     [ -3   0  -1   0   1   2   1   1   2   3]))
+#       (then (phrase [  1   1/2 1/2  1/2 1/2  1  1/2 1/2  1   1]
+#                     [ -sol do  do  re   mi   fa mi  fa   sol]))
 
 #       ;;; it will be in the valley of love and delight
-#       (then (phrase [3/2 1/2   1 1/2 1/2   1 1/2 1/2   1 1/2 1/2  2]
-#                     [  4   4   1   1   2   1   0   0   1   0  -1  0]))
+#       (then (phrase [3/2 1/2   1  1/2 1/2  1  1/2 1/2  1   1/2 1/2  2]
+#                     [fa  sol  mi re  do   re re  re   re  mi  re  si so]))
 
 #       ;;; when true simplicity is gained
 #       (then (phrase [  2 3/2 1/2 1/2 1/2 1/2 1/2 3/2]

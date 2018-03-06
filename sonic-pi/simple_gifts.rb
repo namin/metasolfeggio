@@ -93,8 +93,36 @@ play __sol
 sleep 1
 
 # And when we find ourselves
+# And
+play _do
+sleep 0.5
+# when
+play _do
+sleep 1
+# we
+play _re
+sleep 0.5
+# find
+play _mi
+sleep 0.5
+# our-
+sleep _do
+sleep 0.5
+# -selves
+sleep _mi
+sleep 0.5
 
 # In the place just right,
+# In
+play _re
+# the
+play _
+# place
+play _sol
+sleep 1
+# just
+play _sol
+# right
 
 # 'Twill be in the value
 

@@ -11,6 +11,58 @@ _mi   = 76
 _fa   = 77
 _sol  = 79
 
+play_pattern_timed [
+  __sol, #'Tis
+  __sol, #a
+  _do,   #gift
+  _do,
+  _re,
+  _mi,
+  _do,
+  _mi,
+  _fa,
+  _sol,
+  _sol,
+  _sol,
+  _mi,
+  _re,
+  _do,
+  _re,
+  _re,
+  _re,
+  _re,
+  _re,
+  _mi,
+  _re,
+  __si,
+  _sol,
+  _sol,
+  _do,
+  _do,
+  _re,
+  _mi,
+  _do,
+  _mi,
+  _fa,
+  _sol,
+  _sol,
+  _sol,
+  _mi,
+  _re,
+  _do,
+  _re,
+  _re,
+  _mi,
+  _re,
+  _do,
+  __si,
+  _do
+], [1]
+
+# 'Tis  a   gift to  be  simple,
+# __sol do  do   re  mi  do
+# 1     1   1    1   1   1
+
 # 'Tis a gift to be simple,
 # 'Tis
 play __sol

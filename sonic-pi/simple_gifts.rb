@@ -1,9 +1,9 @@
 # Recited from
 # https://www.youtube.com/watch?v=CLAnuG1340g
 
-use_bpm 80
+use_bpm 70
 
-__sol = 65
+__sol = 67
 _do   = 72
 _re   = 74
 _mi   = 76
@@ -72,14 +72,24 @@ play _re
 sleep 0.5
 # down
 play _re
-sleep 1
+sleep 0.5
 
 # Where we ought to be;
 # Where
+play _re
+sleep 0.5
 # we
+play _mi
+sleep 0.5
 # ought
+play _re
+sleep 0.5
 # to
+play _si
+sleep 1
 # be
+play __sol
+sleep 0.5
 
 # And when we find ourselves
 

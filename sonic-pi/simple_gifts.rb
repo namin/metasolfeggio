@@ -56,6 +56,15 @@ play_pattern_timed [
   _re,
   _do,
   __si,
+  _do,
+
+  _sol,
+  _mi,
+  _re,
+  _mi,
+  _fa,
+  _mi,
+  _re,
   _do
 ], [1]
 

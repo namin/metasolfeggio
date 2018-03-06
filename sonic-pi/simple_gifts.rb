@@ -4,6 +4,7 @@
 use_bpm 70
 
 __sol = 67
+__si  = 71
 _do   = 72
 _re   = 74
 _mi   = 76
@@ -77,7 +78,7 @@ sleep 0.5
 # Where we ought to be;
 # Where
 play _re
-sleep 0.5
+sleep 1
 # we
 play _mi
 sleep 0.5
@@ -85,11 +86,11 @@ sleep 0.5
 play _re
 sleep 0.5
 # to
-play _si
+play __si
 sleep 1
 # be
 play __sol
-sleep 0.5
+sleep 1
 
 # And when we find ourselves
 

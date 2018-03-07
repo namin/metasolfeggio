@@ -1,7 +1,7 @@
 # Recited from
 # https://www.youtube.com/watch?v=CLAnuG1340g
 
-use_bpm 120
+use_bpm 200
 
 __sol = 67
 __si  = 71

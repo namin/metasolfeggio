@@ -2,6 +2,7 @@ README
 ------
 
 ### Workflow
+* add `{:user {:plugins [[cider/cider-nrepl "0.18.0"]]}}` to `~/lein/profiles.clj`
 * in a terminal: `lein repl`
 * in emacs: `M-x cider-connect` (or directly `M-x cider-jack-in` to implicitly `lein repl` too)
 * in emacs: `C-x C-e` to evaluate an expression. I usually evaluate

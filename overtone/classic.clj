@@ -1,7 +1,6 @@
 (ns metasolfeggio.classic
+  (:use metasolfeggio.chords)
   (:refer-clojure :exclude [==])
-  (:use [overtone.live]
-        [overtone.inst sampled-piano])
   (:require [clojure.core.logic.fd :as fd])
   (:use [clojure.core.logic :exclude [is all log run] :as l]))
 
@@ -9,7 +8,7 @@
 (def consonant [0 3 4 5 7 8 9])
 (def imperfect-consonant [3 4 8 9])
 
-(def harmony
+(def my-harmony
   [[1 [3 6 2 4 5]]
    [2 [5 7]]
    [3 [6]]
@@ -51,7 +50,7 @@
 
 (defn zico [measure phrase position prev-note cur-note prev-harmony cur-harmony]
   (fresh []
-    (nexto harmony prev-harmony cur-harmony)
+    (nexto my-harmony prev-harmony cur-harmony)
     (fresh [i]
       (fd/in i (fd/interval 0 10))
       (conde
@@ -87,5 +86,9 @@
 (l/run 1 [m]
   (musico 5 1 0 5 5 m))
 
-(l/run 1 [m]
-  (musico 4 2 0 5 5 m))
+(def p
+  (first
+   (l/run 1 [m]
+     (musico 4 2 0 5 5 m))))
+
+(play-progression metro (metro) (progression :C4 :major (map second p)))

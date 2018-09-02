@@ -91,4 +91,18 @@
    (l/run 1 [m]
      (musico 4 2 0 5 5 m))))
 
-(play-progression metro (metro) (progression :C4 :major (map second p)))
+(defn play-piece [metro beat p]
+  (when p
+    (println (first p))
+    (sampled-piano (first (first p)) 0.3)
+    (play-chord metro beat (second (first p)))
+    (apply-at (metro (inc beat)) #'play-piece [metro (inc beat) (rest p)])))
+
+(defn make-piece [root scale p]
+  (map (fn [x]
+         [(+ (note root) (degree->interval (first x) scale))
+          (first (progression root scale [(second x)]))])
+       p))
+
+(comment
+  (play-piece metro (metro) (make-piece :C4 :major p)))

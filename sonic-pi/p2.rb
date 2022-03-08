@@ -11,7 +11,7 @@ define :p1 do |c|
 end
 
 define :p2 do |c|
-  use_synth :prophet
+  use_synth :fm
   play (pick c)
   sleep 2.5
 end
